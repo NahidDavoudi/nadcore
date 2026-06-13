@@ -11,6 +11,7 @@ use App\Modules\Order\OrderController;
 use App\Modules\Cart\CartController;
 use App\Modules\Discount\DiscountController;
 use App\Modules\Admin\AdminController;
+use App\Modules\Settings\SettingsController;
 
 $router->group([
     'middleware' => [LogMiddleware::class],
@@ -37,6 +38,9 @@ $router->group([
 
     // Discounts
     $router->get('/api/v1/discounts/validate', [DiscountController::class, 'validate']);
+
+    // Settings
+    $router->get('/api/v1/settings', [SettingsController::class, 'show']);
 
     // ═══════════════════════════════════════════════════════════════════════
     // نیاز به توکن
@@ -133,6 +137,10 @@ $router->group([
         $router->put('/discounts/{id}',              [DiscountController::class, 'update']);
         $router->patch('/discounts/{id}/deactivate', [DiscountController::class, 'deactivate']);
         $router->delete('/discounts/{id}',           [DiscountController::class, 'destroy']);
+
+        // Settings
+        $router->get('/settings',   [SettingsController::class, 'adminShow']);
+        $router->patch('/settings', [SettingsController::class, 'update']);
 
     });
 

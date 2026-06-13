@@ -282,6 +282,26 @@ CREATE TABLE `payment_receipts` (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ─── Shop Settings ───────────────────────────────────────────────────────────
+
+DROP TABLE IF EXISTS `shop_settings`;
+
+CREATE TABLE `shop_settings` (
+    `id`                   BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `shop_name`            VARCHAR(150)    NOT NULL DEFAULT 'فروشگاه',
+    `shop_slogan`          VARCHAR(255)    NULL,
+    `shop_logo`            VARCHAR(500)    NULL,
+    `shop_poster`          VARCHAR(500)    NULL,
+    `bank_card`            VARCHAR(30)     NULL,
+    `bank_owner`           VARCHAR(150)    NULL,
+    `payment_method`       ENUM('card_to_card', 'zarinpal', 'both') NOT NULL DEFAULT 'card_to_card',
+    `zarinpal_merchant_id` VARCHAR(100)    NULL,
+    `sms_enabled`          TINYINT(1)      NOT NULL DEFAULT 0,
+    `created_at`           DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at`           DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ─── Seed Data (اختیاری) ─────────────────────────────────────────────────────
@@ -313,3 +333,7 @@ VALUES (
     DATE_ADD(NOW(), INTERVAL 1 YEAR),
     1
 );
+
+-- تنظیمات پیش‌فرض فروشگاه
+INSERT INTO `shop_settings` (`shop_name`, `payment_method`, `sms_enabled`)
+VALUES ('فروشگاه', 'card_to_card', 0);
